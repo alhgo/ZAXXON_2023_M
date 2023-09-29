@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
-    [SerializeField] float speed;
+    [SerializeField] float speedDespl;
     [SerializeField] float speedRotation;
     [SerializeField] float moveY;
     [SerializeField] float moveX;
@@ -20,11 +20,14 @@ public class PlayerManager : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     Vector3 currentRot;
 
+    //Limites
+    float limitX = 50f;
+    float limitXY = 60f;
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 50f;
+        speedDespl = 80f;
         //speedRotation = 2f;
         
     }
@@ -33,7 +36,11 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         if(alive)
+        {
             MoverNave();
+            Rotar();
+        }
+            
     }
 
     void MoverNave()
@@ -45,9 +52,24 @@ public class PlayerManager : MonoBehaviour
         transform.position += Vector3.up * moveY * Time.deltaTime * speed;
         transform.position += Vector3.right * moveX * Time.deltaTime * speed;
         */
-        transform.Translate(Vector3.up * moveY * Time.deltaTime * speed, Space.World);
-        transform.Translate(Vector3.right * moveX * Time.deltaTime * speed, Space.World);
+        transform.Translate(Vector3.up * moveY * Time.deltaTime * speedDespl, Space.World);
+        transform.Translate(Vector3.right * moveX * Time.deltaTime * speedDespl, Space.World);
 
+        if(transform.position.x > limitX)
+        {
+            transform.position = new Vector3(limitX, transform.position.y, 0f);
+        }
+        else if(transform.position.x < -limitX)
+        {
+            transform.position = new Vector3(-limitX, transform.position.y, 0f);
+        }
+
+
+
+    }
+
+    void Rotar()
+    {
         //transform.Rotate(Vector3.forward * Time.deltaTime * -speedRotation * 360f * rotation);
         //transform.rotation = Quaternion.Euler(Vector3.forward * -maxRot * moveX);
 
@@ -57,7 +79,5 @@ public class PlayerManager : MonoBehaviour
         Vector3 vectorRot = vectorRotX + vectorRotZ;
         currentRot = Vector3.SmoothDamp(currentRot, vectorRot, ref velocity, smoothTime);
         transform.eulerAngles = currentRot;
-
-
     }
 }
