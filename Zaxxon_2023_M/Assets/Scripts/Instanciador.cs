@@ -51,8 +51,9 @@ public class Instanciador : MonoBehaviour
 
     void CrearColumna()
     {
+        Vector3 instPos = new Vector3(Random.Range(-30f, 30f), Random.Range(-30f, 30f), 50f);
         transform.position += Vector3.right * Random.Range(-30f, 30f);
-        Instantiate(columna,transform.position,Quaternion.identity);
+        Instantiate(columna,instPos,Quaternion.identity);
         if(alive)
         {
             Invoke("CrearColumna", interval);
