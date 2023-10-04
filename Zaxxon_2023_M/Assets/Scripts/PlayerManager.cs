@@ -29,9 +29,15 @@ public class PlayerManager : MonoBehaviour
     float limitX = 200f;
     float limitXY = 100f;
 
+    private void Awake()
+    {
+        speed = 10f;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        
         speedDespl = 100f;
         //speedRotation = 2f;
         
@@ -40,6 +46,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed += 0.001f;
         if(alive)
         {
             CheckLimits();
