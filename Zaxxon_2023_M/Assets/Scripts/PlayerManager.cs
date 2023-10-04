@@ -26,8 +26,8 @@ public class PlayerManager : MonoBehaviour
     Vector3 currentRot;
 
     //Limites
-    float limitX = 40f;
-    float limitXY = 60f;
+    float limitX = 200f;
+    float limitXY = 100f;
 
     // Start is called before the first frame update
     void Start()
