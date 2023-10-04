@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 
+    public float speed;
     [SerializeField] float speedDespl;
     [SerializeField] float speedRotation;
     [SerializeField] float moveY;
@@ -15,19 +16,23 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] bool alive = true;
 
+    //Booleanas para el control de limite
+    bool inlimtX = true;
+    bool inlimtY = true;
+
     //Valores para el suavizado en la rotacion
     [SerializeField] float smoothTime = 0.3f;
     private Vector3 velocity = Vector3.zero;
     Vector3 currentRot;
 
     //Limites
-    float limitX = 50f;
+    float limitX = 40f;
     float limitXY = 60f;
 
     // Start is called before the first frame update
     void Start()
     {
-        speedDespl = 80f;
+        speedDespl = 100f;
         //speedRotation = 2f;
         
     }
@@ -37,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     {
         if(alive)
         {
+            CheckLimits();
             MoverNave();
             Rotar();
         }
@@ -52,9 +58,28 @@ public class PlayerManager : MonoBehaviour
         transform.position += Vector3.up * moveY * Time.deltaTime * speed;
         transform.position += Vector3.right * moveX * Time.deltaTime * speed;
         */
-        transform.Translate(Vector3.up * moveY * Time.deltaTime * speedDespl, Space.World);
-        transform.Translate(Vector3.right * moveX * Time.deltaTime * speedDespl, Space.World);
+        
+        
+        
 
+
+        //Movimiento en X
+        Vector3 desplx = Vector3.right * moveX * Time.deltaTime * speedDespl;
+
+        if (inlimtX)
+        {
+            transform.Translate(desplx, Space.World);
+        }
+
+        //Movimiento enY
+
+        transform.Translate(Vector3.up * moveY * Time.deltaTime * speedDespl, Space.World);
+
+
+
+
+
+        /*
         if(transform.position.x > limitX)
         {
             transform.position = new Vector3(limitX, transform.position.y, 0f);
@@ -63,6 +88,7 @@ public class PlayerManager : MonoBehaviour
         {
             transform.position = new Vector3(-limitX, transform.position.y, 0f);
         }
+        */
 
 
 
@@ -79,5 +105,28 @@ public class PlayerManager : MonoBehaviour
         Vector3 vectorRot = vectorRotX + vectorRotZ;
         currentRot = Vector3.SmoothDamp(currentRot, vectorRot, ref velocity, smoothTime);
         transform.eulerAngles = currentRot;
+    }
+
+    void CheckLimits()
+    {
+        
+        if (transform.position.x > limitX && moveX > 0 || transform.position.x < -limitX  && moveX < 0)
+        {
+            inlimtX = false;
+        }
+        else
+        {
+            inlimtX = true;
+        }
+        /*
+        if ((transform.position.x < limitX || moveX < 0) && (transform.position.x > -limitX || moveX > 0))
+        {
+            inlimtX = true;
+        }
+        else
+        {
+            inlimtX = false;
+        }
+        */
     }
 }
