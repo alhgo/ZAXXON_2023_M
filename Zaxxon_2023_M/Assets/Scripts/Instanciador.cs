@@ -8,7 +8,10 @@ public class Instanciador : MonoBehaviour
     //Necesito el prefab que voy a instanciar
     [SerializeField] GameObject columna;
 
-    float interval = 1.0f;
+    //El intervalo depende de el espacio entre obst y la velocidad
+    float espacioEntre = 10f;
+    [SerializeField] float speed = 10f;
+    float interval;
 
 
     [SerializeField] bool alive = true;
@@ -16,8 +19,8 @@ public class Instanciador : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CrearColumna();
-        //StartCoroutine("InstanciarObst");
+        //CrearColumna();
+        StartCoroutine("InstanciarObst");
         /*
         for(int i = 0; i < 40; i++)
         {
@@ -33,18 +36,13 @@ public class Instanciador : MonoBehaviour
 
     IEnumerator InstanciarObst()
     {
-        for (int i = 0; i < 40; i++)
+        while(alive)
         {
+            interval = espacioEntre / speed;
             
             yield return new WaitForSeconds(interval);
             CrearColumna();
-            /*
-            if(i == 39)
-            {
-                
-                StopCoroutine("InstanciarObst");
-            }
-            */
+
         }
         
     }
@@ -54,10 +52,13 @@ public class Instanciador : MonoBehaviour
         Vector3 instPos = new Vector3(Random.Range(-30f, 30f), Random.Range(-30f, 30f), 50f);
         transform.position += Vector3.right * Random.Range(-30f, 30f);
         Instantiate(columna,instPos,Quaternion.identity);
+        /*
         if(alive)
         {
             Invoke("CrearColumna", interval);
         }
+
+        */
         
         
     }
