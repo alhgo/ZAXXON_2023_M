@@ -13,6 +13,9 @@ public class Instanciador : MonoBehaviour
     float speed;
     float interval;
 
+    //Datospara crear las columnas intermedias
+    float primeraColumna = 40f;
+
     //Necesito acceder a la instancia de PlayerManager que tiene la nave
     [SerializeField] PlayerManager playerManager;
 
@@ -22,6 +25,8 @@ public class Instanciador : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CrearColumnasIntermedias();
+
         //CrearColumna();
         StartCoroutine("InstanciarObst");
 
@@ -41,13 +46,25 @@ public class Instanciador : MonoBehaviour
 
     }
 
+    void CrearColumnasIntermedias()
+    {
+        //Averiguola distancia entre la primera y la instanci
+        float distancia = transform.position.z - primeraColumna;
+        //Cuantas intermedias hay
+        float numCols = distancia / espacioEntre;
+        numCols = Mathf.FloorToInt(numCols);
+        
+
+       
+    }
+
     IEnumerator InstanciarObst()
     {
         while(alive)
         {
             speed = playerManager.speed;
             interval = espacioEntre / speed;
-            print(interval);
+            //print(interval);
             
             yield return new WaitForSeconds(interval);
             CrearColumna();
@@ -58,7 +75,7 @@ public class Instanciador : MonoBehaviour
 
     void CrearColumna()
     {
-        Vector3 instPos = new Vector3(Random.Range(-30f, 30f), Random.Range(-30f, 30f), 500f);
+        Vector3 instPos = new Vector3(Random.Range(-30f, 30f), Random.Range(-30f, 30f), transform.position.z);
         //transform.position += Vector3.right * Random.Range(-30f, 30f);
         Instantiate(columna,instPos,Quaternion.identity);
         /*
