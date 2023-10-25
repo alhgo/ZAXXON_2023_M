@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     //Limites
     float posX;
     float posY;
-    float limitX = 200f;
+    float limitX = 1000f;
     float limitY = 150f;
     bool inlimitX = true;
     bool inlimitY = true;
@@ -46,8 +46,8 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        desplSpeed = 25f;
-        speed = 80f;
+        desplSpeed = 75f;
+        speed = 120f;
 
     }
 
@@ -175,5 +175,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameManager.alive = false;
         speed = 0;
+        //Destroy(gameObject);
+        GetComponent<Renderer>().enabled = false;   
     }
 }

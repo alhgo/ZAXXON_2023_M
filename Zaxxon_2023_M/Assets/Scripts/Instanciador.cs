@@ -6,9 +6,13 @@ public class Instanciador : MonoBehaviour
 {
     [SerializeField] GameObject obstacle;
 
-    float distanciaEntreObst = 105f;
+    float distanciaEntreObst = 50f;
     float speed;
     float intervalo;
+
+    //Rango de instanciacion
+    float rangoX = 1000f;
+    float rangoY = 150f;
 
     //Variables para los obstaculos intermedios
     float distanciaInst;
@@ -51,8 +55,8 @@ public class Instanciador : MonoBehaviour
         //Creo el bucle
         for(int i = 0; i < numeroObstaculosIniciales ; i++)
         {
-            float desplX = Random.Range(250f, -250f);
-            float desplY = Random.Range(10f, 150f);
+            float desplX = Random.Range(rangoX, -rangoX);
+            float desplY = Random.Range(10f, rangoY);
             intPos = transform.position - new Vector3(desplX, -desplY, distanciaEntreObst * i);
             Instantiate(obstacle, intPos, Quaternion.identity);
         }
@@ -62,7 +66,7 @@ public class Instanciador : MonoBehaviour
     {
         while(GameManager.alive == true)
         {
-            float desplX = Random.Range(250f, -250f);
+            float desplX = Random.Range(rangoX, -rangoX);
             float desplY = Random.Range(10f, 150f);
             Vector3 instPos = transform.position + new Vector3(desplX,desplY,0f);
             Instantiate(obstacle, instPos, Quaternion.identity);
