@@ -4,93 +4,69 @@ using UnityEngine;
 
 public class Instanciador : MonoBehaviour
 {
+    [SerializeField] GameObject obstacle;
 
-    //Necesito el prefab que voy a instanciar
-    [SerializeField] GameObject columna;
-
-    //El intervalo depende de el espacio entre obst y la velocidad
-    float espacioEntre = 30f;
+    float distanciaEntreObst = 105f;
     float speed;
-    float interval;
+    float intervalo;
 
-    //Datospara crear las columnas intermedias
-    float primeraColumna = 40f;
+    //Variables para los obstaculos intermedios
+    float distanciaInst;
+    float distaniaPrimerObst;
+    float distanciaTotal;
+    float numeroObstaculosIniciales;
 
-    //Necesito acceder a la instancia de PlayerManager que tiene la nave
     [SerializeField] PlayerManager playerManager;
-
-
-    [SerializeField] bool alive = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        CrearColumnasIntermedias();
+        CrearObstaculosIniciales();
+        StartCoroutine("Instanciar");
 
-        //CrearColumna();
-        StartCoroutine("InstanciarObst");
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
 
-        
-        
-        /*
-        for(int i = 0; i < 40; i++)
+        speed = playerManager.speed;
+        intervalo = distanciaEntreObst / speed;
+        //print(intervalo);
+
+    }
+
+    void CrearObstaculosIniciales()
+    {
+        distanciaInst = transform.position.z;
+        distaniaPrimerObst = 50f;
+        distanciaTotal = distanciaInst - distaniaPrimerObst;
+        numeroObstaculosIniciales = distanciaTotal / distanciaEntreObst;
+        numeroObstaculosIniciales = Mathf.FloorToInt(numeroObstaculosIniciales);
+        //print(numeroObstaculosIniciales);
+
+        //Creo el vector donde pondre cada obstaculo
+        Vector3 intPos;
+
+        //Creo el bucle
+        for(int i = 0; i < numeroObstaculosIniciales ; i++)
         {
-
-            Instantiate(columna, transform.position, Quaternion.identity);
-
-            transform.position +=  Vector3.right;
+            float desplX = Random.Range(250f, -250f);
+            float desplY = Random.Range(10f, 150f);
+            intPos = transform.position - new Vector3(desplX, -desplY, distanciaEntreObst * i);
+            Instantiate(obstacle, intPos, Quaternion.identity);
         }
-
-       */
-
     }
 
-    void CrearColumnasIntermedias()
+    IEnumerator Instanciar()
     {
-        //Averiguola distancia entre la primera y la instanci
-        float distancia = transform.position.z - primeraColumna;
-        //Cuantas intermedias hay
-        float numCols = distancia / espacioEntre;
-        numCols = Mathf.FloorToInt(numCols);
-        
-
-       
-    }
-
-    IEnumerator InstanciarObst()
-    {
-        while(alive)
+        while(GameManager.alive == true)
         {
-            speed = playerManager.speed;
-            interval = espacioEntre / speed;
-            //print(interval);
-            
-            yield return new WaitForSeconds(interval);
-            CrearColumna();
-
+            float desplX = Random.Range(250f, -250f);
+            float desplY = Random.Range(10f, 150f);
+            Vector3 instPos = transform.position + new Vector3(desplX,desplY,0f);
+            Instantiate(obstacle, instPos, Quaternion.identity);
+            yield return new WaitForSeconds(intervalo);
         }
-        
-    }
-
-    void CrearColumna()
-    {
-        Vector3 instPos = new Vector3(Random.Range(-30f, 30f), Random.Range(-30f, 30f), transform.position.z);
-        //transform.position += Vector3.right * Random.Range(-30f, 30f);
-        Instantiate(columna,instPos,Quaternion.identity);
-        /*
-        if(alive)
-        {
-            Invoke("CrearColumna", interval);
-        }
-
-        */
-        
-        
-    }
-
-    private void Update()
-    {
-        
     }
 }

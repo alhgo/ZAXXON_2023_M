@@ -5,35 +5,32 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] Transform naveTransform;
+    [SerializeField] float offsetY = 7f; 
+    [SerializeField] float offsetZ = 14f;
 
-    [SerializeField] float offsetZ = 18;
-    [SerializeField] float offsetY = 9;
-
-    //Variables para suavizado
-    Vector3 currentPos;
-    Vector3 smoothMoveVelocity = Vector3.zero;
-    float MoveVelocity = 0.3f;
+    //public Transform target;
+    public float smoothTime = 0.3F;
+    private Vector3 velocity = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        offsetZ = 25;
-        offsetY = 10;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Seguimiento en X, Y pero sin seguir en Z
-        Vector3 destino = naveTransform.position - new Vector3(0, -offsetY, offsetZ);
-        //transform.position = destino;
-
-        currentPos = Vector3.SmoothDamp(currentPos, destino, ref smoothMoveVelocity, MoveVelocity);
-
-        transform.position = currentPos;
         /*
-       transform.position = naveTransform.position - new Vector3(0f, -offsetY, offsetZ) ;    
-       transform.LookAt(naveTransform);
+        transform.LookAt(naveTransform.position);
+        transform.position = naveTransform.position + new Vector3(0f, offsetY, -offsetZ);    
         */
+        // Define a target position above and behind the target transform
+        //Vector3 targetPosition = naveTransform.TransformPoint(new Vector3(0, offsetY, -offsetZ));
+        Vector3 targetPosition = naveTransform.position + new Vector3(0f, offsetY, -offsetZ);
+        //https://docs.unity3d.com/ScriptReference/Vector3.SmoothDamp.html
+
+        // Smoothly move the camera towards that target position
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 }
