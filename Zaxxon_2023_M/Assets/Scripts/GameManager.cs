@@ -7,4 +7,6 @@ public class GameManager : MonoBehaviour
 
     public static bool alive;
     public static int lifes;
+
+    public static int level;
 }

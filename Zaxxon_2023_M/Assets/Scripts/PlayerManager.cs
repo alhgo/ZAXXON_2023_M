@@ -30,25 +30,33 @@ public class PlayerManager : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     Vector3 currentRot;
 
+    //Componente que gestiona el HUD
+    [SerializeField] UIManager uiManager;
+
     private void Awake()
     {
         //Velocidad a la que avanza la nave
         //Esta en Awake para que se cargue antes que la escena
         GameManager.alive = true;
         GameManager.lifes = 3;
-        speed = 80f;
+        GameManager.level = 1;
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
         desplSpeed = 25f;
-        
+        speed = 80f;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
+
         if(GameManager.alive)
         {
             speed += 0.01f;
@@ -56,7 +64,10 @@ public class PlayerManager : MonoBehaviour
             CheckLimits();
             Mover();
             Rotar();
+
         }
+        
+
             
     }
 
@@ -134,6 +145,17 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             GameManager.lifes--;
+            if(GameManager.lifes < 0 )
+            {
+                Morir();
+            }
+            else
+            {
+               uiManager.UpdateLifes();
+            }
+            
+            /*
+            GameManager.lifes--;
             print("Vidas " + GameManager.lifes);
             if(GameManager.lifes < 0)
             {
@@ -143,6 +165,7 @@ public class PlayerManager : MonoBehaviour
             {
                 Destroy(other.gameObject);
             }
+            ^*/
         }
 
 
