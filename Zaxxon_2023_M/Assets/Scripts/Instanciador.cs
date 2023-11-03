@@ -12,7 +12,7 @@ public class Instanciador : MonoBehaviour
 
     //Rango de instanciacion
     float rangoX = 1000f;
-    float rangoY = 150f;
+    float rangoY = 450f;
 
     //Variables para los obstaculos intermedios
     float distanciaInst;
@@ -67,7 +67,7 @@ public class Instanciador : MonoBehaviour
         while(GameManager.alive == true)
         {
             float desplX = Random.Range(rangoX, -rangoX);
-            float desplY = Random.Range(10f, 150f);
+            float desplY = Random.Range(10f, rangoY);
             Vector3 instPos = transform.position + new Vector3(desplX,desplY,0f);
             Instantiate(obstacle, instPos, Quaternion.identity);
             yield return new WaitForSeconds(intervalo);

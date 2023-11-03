@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     float posX;
     float posY;
     float limitX = 1000f;
-    float limitY = 150f;
+    float limitY = 450f;
     bool inlimitX = true;
     bool inlimitY = true;
 
@@ -176,6 +176,6 @@ public class PlayerManager : MonoBehaviour
         GameManager.alive = false;
         speed = 0;
         //Destroy(gameObject);
-        GetComponent<Renderer>().enabled = false;   
+          
     }
 }
