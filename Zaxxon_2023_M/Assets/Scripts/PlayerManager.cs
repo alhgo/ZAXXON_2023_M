@@ -167,6 +167,10 @@ public class PlayerManager : MonoBehaviour
             }
             ^*/
         }
+        else if(other.gameObject.tag == "PowerUp")
+        {
+            print("BIEWEEEEN");
+        }
 
 
     }

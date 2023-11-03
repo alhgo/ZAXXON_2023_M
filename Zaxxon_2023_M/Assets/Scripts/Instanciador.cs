@@ -5,6 +5,7 @@ using UnityEngine;
 public class Instanciador : MonoBehaviour
 {
     [SerializeField] GameObject obstacle;
+    [SerializeField] GameObject PowerUp;
 
     float distanciaEntreObst = 50f;
     float speed;
@@ -27,6 +28,7 @@ public class Instanciador : MonoBehaviour
     {
         CrearObstaculosIniciales();
         StartCoroutine("Instanciar");
+        StartCoroutine("InstanciarPowerUps");
 
     }
 
@@ -71,6 +73,20 @@ public class Instanciador : MonoBehaviour
             Vector3 instPos = transform.position + new Vector3(desplX,desplY,0f);
             Instantiate(obstacle, instPos, Quaternion.identity);
             yield return new WaitForSeconds(intervalo);
+        }
+    }
+
+    IEnumerator InstanciarPowerUps()
+    {
+        float intervaloPup;
+        while (GameManager.alive == true)
+        {
+            float desplX = Random.Range(rangoX, -rangoX);
+            float desplY = Random.Range(10f, rangoY);
+            Vector3 instPos = transform.position + new Vector3(desplX, desplY, 0f);
+            Instantiate(PowerUp, instPos, Quaternion.identity);
+            intervaloPup = Random.Range(2f, 4f);
+            yield return new WaitForSeconds(intervaloPup);
         }
     }
 }

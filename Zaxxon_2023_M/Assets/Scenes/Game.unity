@@ -936,6 +936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2864609504811551432, guid: 623a18d17c0e43842b9ccbb54d9dc716, type: 3}
+  PowerUp: {fileID: 7025098420754268214, guid: b863b73841f5230468ae97769a1b763d, type: 3}
   playerManager: {fileID: 471807416}
 --- !u!4 &2019869182
 Transform:
