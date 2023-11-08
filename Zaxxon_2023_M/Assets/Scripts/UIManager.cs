@@ -16,6 +16,10 @@ public class UIManager : MonoBehaviour
 
     float distancia;
 
+    //Barra de escudo
+    [SerializeField] Slider sliderShield;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,5 +55,10 @@ public class UIManager : MonoBehaviour
     public void LoadScene(int scene)
     {
         SceneManager.LoadScene(scene);
+    }
+
+    public void ActualizarBarraEscudo(float escudo)
+    {
+        sliderShield.value = escudo;
     }
 }

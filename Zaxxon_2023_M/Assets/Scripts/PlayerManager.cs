@@ -33,6 +33,10 @@ public class PlayerManager : MonoBehaviour
     //Componente que gestiona el HUD
     [SerializeField] UIManager uiManager;
 
+
+    //Escudo para el Slider
+    float escudo;
+
     private void Awake()
     {
         //Velocidad a la que avanza la nave
@@ -48,6 +52,9 @@ public class PlayerManager : MonoBehaviour
     {
         desplSpeed = 75f;
         speed = 120f;
+
+        escudo = 100f;
+        uiManager.ActualizarBarraEscudo(escudo);
 
     }
 
@@ -144,7 +151,21 @@ public class PlayerManager : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            GameManager.lifes--;
+            // GameManager.lifes--;
+            escudo -= 50f;
+            uiManager.ActualizarBarraEscudo(escudo);
+
+            if(escudo < 0)
+            {
+                GameManager.lifes--;
+                if(GameManager.lifes >= 0)
+                {
+                    escudo = 100f;
+                    uiManager.ActualizarBarraEscudo(escudo);
+                }
+                
+            }
+
             if(GameManager.lifes < 0 )
             {
                 Morir();
@@ -152,6 +173,7 @@ public class PlayerManager : MonoBehaviour
             else
             {
                uiManager.UpdateLifes();
+                Destroy(other.gameObject);
             }
             
             /*
@@ -167,8 +189,10 @@ public class PlayerManager : MonoBehaviour
             }
             ^*/
         }
-        else if(other.gameObject.tag == "PowerUp")
+        else if(other.gameObject.tag == "Power")
         {
+            escudo += 10f;
+            uiManager.ActualizarBarraEscudo(escudo);
             print("BIEWEEEEN");
         }
 

@@ -28,8 +28,13 @@ public class Instanciador : MonoBehaviour
     {
         CrearObstaculosIniciales();
         StartCoroutine("Instanciar");
-        StartCoroutine("InstanciarPowerUps");
+        Invoke("IniciarPowerUps", 0.5f);
 
+    }
+
+    void IniciarPowerUps()
+    {
+        StartCoroutine("InstanciarPowerUps");
     }
 
     // Update is called once per frame
