@@ -49,7 +49,8 @@ public class UIManager : MonoBehaviour
         UpdateLifes();
 
         playerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
-        textDistancia.text = "Hola mundo";
+        textDistancia.text = "...";
+        distancia = 0f;
 
         combustible = 100f;
 
@@ -59,12 +60,15 @@ public class UIManager : MonoBehaviour
 
         //Inicio el gasto de combustible
         StartCoroutine("ActualizarCombustible");
+
+        //Inicio la corrutina que suma la distancia recorrida
+        StartCoroutine("ActualizarDistancia");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        ActualizarTiempo();
         ActualizarDistancia();
 
         if (Input.GetButtonDown("Start"))
@@ -96,18 +100,30 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void ActualizarDistancia()
+    void ActualizarTiempo()
     {
 
         tiempoTranscurrido = Time.time - tiempoAlLanzar;
 
         textoTiempo.text =  Mathf.Round(tiempoTranscurrido) + " segs.";
 
-        distancia = tiempoTranscurrido * playerManager.speed;
-        distancia = distancia / 1000f;
-        distancia = Mathf.Round(distancia * 100) / 100;
+    }
 
-        textDistancia.text = distancia + " Kmts.";
+    IEnumerator ActualizarDistancia()
+    {
+        float intervalo = 0.1f;
+        while (GameManager.alive)
+        {
+            print(distancia);
+            yield return new WaitForSeconds(intervalo);
+            distancia += intervalo * playerManager.speed;
+            //distancia = distancia / 1000f;
+            distancia = Mathf.Round(distancia * 100) / 100;
+
+            textDistancia.text = distancia + " mts.";
+
+        }
+
     }
 
     public void UpdateLifes()
