@@ -24,10 +24,24 @@ public class UIManager : MonoBehaviour
     float tiempoTranscurrido;
     float tiempoAlLanzar;
 
+    //Empty que contiene el Menú de Pausa
+    [SerializeField] GameObject menuPausa;
+    [SerializeField] GameObject menuGO;
+    bool isPaused = false;
+
     //Combustible
     public float combustible;
     [SerializeField] Slider sliderFuel;
 
+    //Botones para preseleccionar
+    [SerializeField] Button btn_salirPausa;
+    [SerializeField] Button btn_retry;
+
+    private void Awake()
+    {
+        menuPausa.SetActive(false);
+        menuGO.SetActive(false);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +67,33 @@ public class UIManager : MonoBehaviour
         
         ActualizarDistancia();
 
+        if (Input.GetButtonDown("Start"))
+        {
+            LanzarMenuPausa();
+        }
+
+  
+
+    }
+
+    void LanzarMenuPausa()
+    {
+        
+
+        if (!isPaused)
+        {
+            Time.timeScale = 0f;
+            menuPausa.SetActive(true);
+            btn_salirPausa.Select();
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            menuPausa.SetActive(false);
+        }
+
+        isPaused = !isPaused;
+
     }
 
     void ActualizarDistancia()
@@ -77,6 +118,7 @@ public class UIManager : MonoBehaviour
 
     public void LoadScene(int scene)
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(scene);
     }
 

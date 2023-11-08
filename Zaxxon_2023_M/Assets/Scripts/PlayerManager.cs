@@ -66,7 +66,7 @@ public class PlayerManager : MonoBehaviour
 
         if(GameManager.alive)
         {
-            speed += 0.01f;
+           // speed += 0.01f;
 
             CheckLimits();
             Mover();
