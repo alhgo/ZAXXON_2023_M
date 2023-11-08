@@ -19,6 +19,15 @@ public class UIManager : MonoBehaviour
     //Barra de escudo
     [SerializeField] Slider sliderShield;
 
+    //Texto con el tiempo transcurrido
+    [SerializeField] TMP_Text textoTiempo;
+    float tiempoTranscurrido;
+    float tiempoAlLanzar;
+
+    //Combustible
+    public float combustible;
+    [SerializeField] Slider sliderFuel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +36,15 @@ public class UIManager : MonoBehaviour
 
         playerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
         textDistancia.text = "Hola mundo";
+
+        combustible = 100f;
+
+        //Reseteo los tiempos
+        tiempoTranscurrido = 0.0f;
+        tiempoAlLanzar = Time.time;
+
+        //Inicio el gasto de combustible
+        StartCoroutine("ActualizarCombustible");
     }
 
     // Update is called once per frame
@@ -39,7 +57,12 @@ public class UIManager : MonoBehaviour
 
     void ActualizarDistancia()
     {
-        distancia = Time.time * playerManager.speed;
+
+        tiempoTranscurrido = Time.time - tiempoAlLanzar;
+
+        textoTiempo.text =  Mathf.Round(tiempoTranscurrido) + " segs.";
+
+        distancia = tiempoTranscurrido * playerManager.speed;
         distancia = distancia / 1000f;
         distancia = Mathf.Round(distancia * 100) / 100;
 
@@ -60,5 +83,15 @@ public class UIManager : MonoBehaviour
     public void ActualizarBarraEscudo(float escudo)
     {
         sliderShield.value = escudo;
+    }
+
+    IEnumerator ActualizarCombustible()
+    {
+        while(GameManager.alive)
+        {
+            combustible -= 0.1f;
+            sliderFuel.value = combustible;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }

@@ -24,7 +24,12 @@ public class MenuManager : MonoBehaviour
 
     public void ActualizarSliderMusic()
     {
-        sliderMusicValue = sliderMusic.value;
-        text_music.text = sliderMusicValue.ToString();
+        if(sliderMusic != null)
+        {
+            sliderMusicValue = sliderMusic.value;
+            text_music.text = sliderMusicValue.ToString();
+
+        }
+        
     }
 }
