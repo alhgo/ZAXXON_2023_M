@@ -48,9 +48,12 @@ public class PlayerManager : MonoBehaviour
     //Sonido
     AudioSource audioSource;
     [SerializeField] AudioClip explosionSound;
+    [SerializeField] AudioClip disparo;
 
     //Autodisparo
     bool isShooting = false;
+    float timeReset;
+    float shootRate = 0.1f;
 
     //Musica
     [SerializeField] AudioSource musicSource;
@@ -81,7 +84,9 @@ public class PlayerManager : MonoBehaviour
         naveElegida = GameManager.naveElegida;
         avionesOpt[naveElegida].SetActive(true);
 
-        audioSource = GetComponent<AudioSource>();  
+        audioSource = GetComponent<AudioSource>();
+
+        timeReset = Time.time;
 
     }
 
@@ -109,14 +114,32 @@ public class PlayerManager : MonoBehaviour
 
     void Disparar()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) 
+
+        if (Input.GetButtonDown("Fire1")) 
         {
+            
             isShooting = true;
+            //Lanzar fogonazo en el cielo
+            //RenderSettings.skybox.SetFloat("_Exposure", 0.1f);
+            //audioSource.PlayOneShot(disparo);
         }
-        if(Input.GetKeyUp(KeyCode.Space))
+        if(Input.GetButtonUp("Fire1"))
         {
             isShooting= false;
         }
+
+        if(isShooting)
+        {
+            float timeToNextShoot = timeReset + shootRate;
+            if (Time.time > timeToNextShoot)
+            {
+                audioSource.PlayOneShot(disparo);
+                timeReset = Time.time;
+            }
+        }
+
+
+
     }
     void Mover()
     {
