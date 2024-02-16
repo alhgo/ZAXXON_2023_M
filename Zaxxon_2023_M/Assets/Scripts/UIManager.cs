@@ -100,6 +100,11 @@ public class UIManager : MonoBehaviour
 
     }
 
+
+    public void LanzarMenuGO()
+    {
+        menuGO.SetActive(true);
+    }
     void ActualizarTiempo()
     {
 

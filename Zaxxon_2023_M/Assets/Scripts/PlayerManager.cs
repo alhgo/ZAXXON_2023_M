@@ -37,13 +37,35 @@ public class PlayerManager : MonoBehaviour
     //Escudo para el Slider
     float escudo;
 
+    //Explosion
+    [SerializeField] GameObject explosion;
+    [SerializeField] GameObject playerMesh;
+
+    //Skins
+    [SerializeField] GameObject[] avionesOpt;
+    int naveElegida;
+
+    //Sonido
+    AudioSource audioSource;
+    [SerializeField] AudioClip explosionSound;
+
+    //Autodisparo
+    bool isShooting = false;
+
+    //Musica
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioClip musicDeath;
+
     private void Awake()
     {
         //Velocidad a la que avanza la nave
         //Esta en Awake para que se cargue antes que la escena
         GameManager.alive = true;
-        GameManager.lifes = 3;
+        GameManager.lifes = 1;
         GameManager.level = 1;
+
+
+        //DontDestroyOnLoad(this.gameObject);
         
     }
 
@@ -55,6 +77,11 @@ public class PlayerManager : MonoBehaviour
 
         escudo = 100f;
         uiManager.ActualizarBarraEscudo(escudo);
+
+        naveElegida = GameManager.naveElegida;
+        avionesOpt[naveElegida].SetActive(true);
+
+        audioSource = GetComponent<AudioSource>();  
 
     }
 
@@ -71,6 +98,7 @@ public class PlayerManager : MonoBehaviour
             CheckLimits();
             Mover();
             Rotar();
+            Disparar();
 
         }
         
@@ -78,6 +106,18 @@ public class PlayerManager : MonoBehaviour
             
     }
 
+
+    void Disparar()
+    {
+        if(Input.GetKeyDown(KeyCode.Space)) 
+        {
+            isShooting = true;
+        }
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            isShooting= false;
+        }
+    }
     void Mover()
     {
         moveY = Input.GetAxis("Vertical");
@@ -193,7 +233,7 @@ public class PlayerManager : MonoBehaviour
         {
             escudo += 10f;
             uiManager.ActualizarBarraEscudo(escudo);
-            print("BIEWEEEEN");
+            //print("BIEWEEEEN");
         }
 
 
@@ -204,6 +244,25 @@ public class PlayerManager : MonoBehaviour
         GameManager.alive = false;
         speed = 0;
         //Destroy(gameObject);
+
+       // playerMesh.SetActive(false);
+        avionesOpt[naveElegida].SetActive(false);
+        audioSource.Stop();
+  
+        audioSource.PlayOneShot(explosionSound);
+        //Cambio de musica
+        musicSource.Stop();
+        musicSource.clip = musicDeath;
+        musicSource.Play();
+        Instantiate(explosion, transform.position, transform.rotation);
+
+        Invoke("LanzarGO", 5f);
           
     }
+
+    void LanzarGO()
+    {
+        uiManager.LanzarMenuGO();
+    }
+    
 }

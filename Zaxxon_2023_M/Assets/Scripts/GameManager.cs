@@ -9,4 +9,6 @@ public class GameManager : MonoBehaviour
     public static int lifes;
 
     public static int level;
+
+    public static int naveElegida = 0;
 }

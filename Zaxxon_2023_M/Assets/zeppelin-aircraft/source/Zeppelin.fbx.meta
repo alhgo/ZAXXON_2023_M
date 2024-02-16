@@ -3,7 +3,12 @@ guid: 7eb206eaaba632c4bae5f942965a796e
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Zeppelin1
+    second: {fileID: 2100000, guid: 7e6e841df59090746832235acf8aa4ca, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
