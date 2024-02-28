@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,9 +13,17 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Slider sliderMusic;
     float sliderMusicValue;
 
+    //Control de la mesa de sonido
+    [SerializeField] AudioMixer audioMixer;
+
     private void Start()
     {
-        ActualizarSliderMusic();
+        //ActualizarSliderMusic();
+
+        //Ajusto el volumen del Audio Mixer
+        sliderMusic.value = GameManager.volumeMusic;
+        float dbs = 20 * Mathf.Log10(GameManager.volumeMusic);
+        audioMixer.SetFloat("VolumeMusic", dbs);
     }
 
     public void LoadScene(int scene)
@@ -27,7 +36,17 @@ public class MenuManager : MonoBehaviour
         if(sliderMusic != null)
         {
             sliderMusicValue = sliderMusic.value;
+            GameManager.volumeMusic = sliderMusicValue;
+
+            //Actualizo el texto
             text_music.text = sliderMusicValue.ToString();
+
+            //Ajusto el volumen del Audio Mixer
+            float dbs = 20 * Mathf.Log10(sliderMusicValue);
+            
+            audioMixer.SetFloat("VolumeMusic", dbs);
+
+            
 
         }
         

@@ -11,4 +11,6 @@ public class GameManager : MonoBehaviour
     public static int level;
 
     public static int naveElegida = 0;
+    
+    public static float volumeMusic = 1f;
 }

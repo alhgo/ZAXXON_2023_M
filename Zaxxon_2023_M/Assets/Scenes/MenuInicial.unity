@@ -1609,3 +1609,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text_music: {fileID: 0}
   sliderMusic: {fileID: 0}
+  audioMixer: {fileID: 0}
