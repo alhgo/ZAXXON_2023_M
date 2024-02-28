@@ -58,6 +58,7 @@ public class PlayerManager : MonoBehaviour
     //Musica
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioClip musicDeath;
+    [SerializeField] AudioClip enemyCrash;
 
     private void Awake()
     {
@@ -237,8 +238,9 @@ public class PlayerManager : MonoBehaviour
             {
                uiManager.UpdateLifes();
                 Destroy(other.gameObject);
+                audioSource.PlayOneShot(enemyCrash);
             }
-            
+
             /*
             GameManager.lifes--;
             print("Vidas " + GameManager.lifes);
@@ -251,6 +253,8 @@ public class PlayerManager : MonoBehaviour
                 Destroy(other.gameObject);
             }
             ^*/
+
+            
         }
         else if(other.gameObject.tag == "Power")
         {

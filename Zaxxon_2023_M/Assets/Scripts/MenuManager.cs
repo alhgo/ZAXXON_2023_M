@@ -39,16 +39,20 @@ public class MenuManager : MonoBehaviour
             GameManager.volumeMusic = sliderMusicValue;
 
             //Actualizo el texto
-            text_music.text = sliderMusicValue.ToString();
+            float textoRedondeado = Mathf.Round(sliderMusicValue * 100f);
+            text_music.text = textoRedondeado.ToString();
 
             //Ajusto el volumen del Audio Mixer
             float dbs = 20 * Mathf.Log10(sliderMusicValue);
             
             audioMixer.SetFloat("VolumeMusic", dbs);
 
-            
-
         }
         
+    }
+
+public void Salir()
+    {
+        Application.Quit();
     }
 }
