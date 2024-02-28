@@ -40,6 +40,9 @@ public class PlayerManager : MonoBehaviour
     //Explosion
     [SerializeField] GameObject explosion;
     [SerializeField] GameObject playerMesh;
+    //Explosion Obstaculo
+    [SerializeField] GameObject explosionObst;
+
 
     //Skins
     [SerializeField] GameObject[] avionesOpt;
@@ -237,6 +240,8 @@ public class PlayerManager : MonoBehaviour
             else
             {
                uiManager.UpdateLifes();
+                //Antes de destruir el obstaculo, instancio una explosion en su lugar
+                Instantiate(explosionObst, other.gameObject.transform.position, Quaternion.identity);
                 Destroy(other.gameObject);
                 audioSource.PlayOneShot(enemyCrash);
             }

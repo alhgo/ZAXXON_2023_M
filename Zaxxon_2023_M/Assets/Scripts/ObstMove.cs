@@ -24,7 +24,7 @@ public class ObstMove : MonoBehaviour
         //Vector3 despl = patras + pabajo;
         speed = playerManager.speed;
         transform.Translate(Vector3.back * speed * Time.deltaTime);
-        if(transform.position.z < -20)
+        if(transform.position.z < -50)
         {
             Destroy(gameObject);
         }
